@@ -12,7 +12,7 @@ const appActions = require('../../../../../../../js/actions/appActions')
 // Styles
 const {StyleSheet, css} = require('aphrodite')
 const {addFundsDialogMinHeight} = require('../../../../styles/global').spacing
-const walletIcon = require('../../../../../../extensions/brave/img/ledger/walletIcon.png')
+const walletIcon = require('../../../../../../extensions/brave/img/ledger/wallet_icon.svg')
 const ethIcon = require('../../../../../../extensions/brave/img/ledger/cryptoIcons/ETH_icon.svg')
 const btcIcon = require('../../../../../../extensions/brave/img/ledger/cryptoIcons/BTC_icon.svg')
 const ltcIcon = require('../../../../../../extensions/brave/img/ledger/cryptoIcons/LTC_icon.svg')
@@ -46,38 +46,46 @@ class AddFundsWizardMain extends React.Component {
   render () {
     return (
       <div data-test-id='addFundsWizardMain'
-        className={css(styles.addFundsWizardMain)}>
+        className={css(styles.wizardMain)}>
         <div>
           <header data-l10n-id='addFundsWizardMainHeader' />
           <p data-l10n-id='addFundsWizardMainOptions'
             className={css(
-              styles.addFundsWizardMain__text,
-              styles.addFundsWizardMain__text_bold
+              styles.wizardMain__text,
+              styles.wizardMain__text_bold
             )}
           />
           <BrowserButton groupedItem secondaryColor
             onClick={this.onClickETH}
-            custom={[styles.addFundsWizardMain__currencyIcon, styles.ethIcon]}
-          />
+            custom={[
+              styles.wizardMain__currencyIcon,
+              styles.wizardMain__currencyIcon_eth
+            ]} />
           <BrowserButton groupedItem secondaryColor
             onClick={this.onClickBTC}
-            custom={[styles.addFundsWizardMain__currencyIcon, styles.btcIcon]}
-          />
+            custom={[
+              styles.wizardMain__currencyIcon,
+              styles.wizardMain__currencyIcon_btc
+            ]} />
           <BrowserButton groupedItem secondaryColor
             onClick={this.onClickLTC}
-            custom={[styles.addFundsWizardMain__currencyIcon, styles.ltcIcon]}
-            />
+            custom={[
+              styles.wizardMain__currencyIcon,
+              styles.wizardMain__currencyIcon_ltc
+            ]} />
           <BrowserButton groupedItem secondaryColor
             onClick={this.onClickBAT}
-            custom={[styles.addFundsWizardMain__currencyIcon, styles.batIcon]}
-          />
+            custom={[
+              styles.wizardMain__currencyIcon,
+              styles.wizardMain__currencyIcon_bat
+            ]} />
         </div>
         <p>
           <span data-l10n-id='addFundsWizardMainReminder'
-            className={css(styles.addFundsWizardMain__text_small)}
+            className={css(styles.wizardMain__text_small)}
           />&nbsp;
           <a data-l10n-id='theFAQ'
-            className={css(styles.addFundsWizardMain__text_small)}
+            className={css(styles.wizardMain__text_small)}
             href='https://brave.com/faq-payments/#brave-payments'
             target='_blank'
             rel='noreferrer noopener'
@@ -89,7 +97,7 @@ class AddFundsWizardMain extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  addFundsWizardMain: {
+  wizardMain: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -110,21 +118,21 @@ const styles = StyleSheet.create({
     }
   },
 
-  addFundsWizardMain__text: {
+  wizardMain__text: {
     margin: '20px 0'
   },
 
-  addFundsWizardMain__text_bold: {
+  wizardMain__text_bold: {
     fontWeight: 600
   },
 
-  addFundsWizardMain__text_small: {
+  wizardMain__text_small: {
     fontSize: 'small'
   },
 
   // but this inside a pseudo-state
   // otherwise you can't have a gradient background
-  addFundsWizardMain__currencyIcon: {
+  wizardMain__currencyIcon: {
     position: 'relative',
     width: '100px',
     height: '80px',
@@ -158,7 +166,7 @@ const styles = StyleSheet.create({
     }
   },
 
-  ethIcon: {
+  wizardMain__currencyIcon_eth: {
     '::before': {
       backgroundImage: `url(${ethIcon})`
     },
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
     }
   },
 
-  btcIcon: {
+  wizardMain__currencyIcon_btc: {
     '::before': {
       backgroundImage: `url(${btcIcon})`
     },
@@ -178,7 +186,7 @@ const styles = StyleSheet.create({
     }
   },
 
-  ltcIcon: {
+  wizardMain__currencyIcon_ltc: {
     '::before': {
       backgroundImage: `url(${ltcIcon})`
     },
@@ -188,7 +196,7 @@ const styles = StyleSheet.create({
     }
   },
 
-  batIcon: {
+  wizardMain__currencyIcon_bat: {
     '::before': {
       backgroundImage: `url(${batIcon})`
     },

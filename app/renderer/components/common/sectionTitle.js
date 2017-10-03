@@ -43,7 +43,7 @@ class AboutPageSectionTitle extends ImmutableComponent {
       styles.sectionTitle,
       styles.prefSectionTitle,
       styles.aboutPageSectionTitle,
-      this.props.canWrap && styles.aboutPageSectionTitle_canWrap,
+      this.props['data-canWrap'] && styles.aboutPageSectionTitle_canWrap,
       this.props['data-subTitle'] && styles.aboutPageSectionSubTitle
     )} {...this.props} />
   }

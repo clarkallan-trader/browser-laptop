@@ -15,14 +15,14 @@ class BatWelcomeScreen extends React.Component {
   render () {
     return (
       <div data-test-id='batWelcomeScreen'
-        className={css(styles.addFundsBatScreen)}
+        className={css(styles.batScreen)}
       >
-        <AboutPageSectionTitle canWrap data-l10n-id='helloBat' />
+        <AboutPageSectionTitle data-canWrap data-l10n-id='helloBat' />
         <p data-l10n-id='helloBatText1'
-          className={css(styles.addFundsBatScreen__text)}
+          className={css(styles.batScreen__text)}
         />
         <p data-l10n-id='helloBatText2'
-          className={css(styles.addFundsBatScreen__text)}
+          className={css(styles.batScreen__text)}
         />
       </div>
     )
@@ -33,20 +33,20 @@ class BatContribMatching extends React.Component {
   render () {
     return (
       <div data-test-id='batContribMatching'
-        className={css(styles.addFundsBatScreen)}>
+        className={css(styles.batScreen)}>
         <div>
-          <AboutPageSectionTitle canWrap data-l10n-id='batContributionTitle' />
+          <AboutPageSectionTitle data-canWrap data-l10n-id='batContributionTitle' />
           <p data-l10n-id='batContributionText1'
-            className={css(styles.addFundsBatScreen__text)}
+            className={css(styles.batScreen__text)}
           />
           <p data-l10n-id='batContributionText2'
-            className={css(styles.addFundsBatScreen__text)}
+            className={css(styles.batScreen__text)}
           />
         </div>
         <p data-l10n-id='batContributionText3'
           className={css(
-            styles.addFundsBatScreen__text,
-            styles.addFundsBatScreen__text_small
+            styles.batScreen__text,
+            styles.batScreen__text_small
           )}
         />
       </div>
@@ -55,7 +55,7 @@ class BatContribMatching extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  addFundsBatScreen: {
+  batScreen: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
     }
   },
 
-  addFundsBatScreen__text: {
+  batScreen__text: {
     margin: '20px 0'
   },
 
-  addFundsBatScreen__text_small: {
+  batScreen__text_small: {
     fontSize: 'small'
   }
 })

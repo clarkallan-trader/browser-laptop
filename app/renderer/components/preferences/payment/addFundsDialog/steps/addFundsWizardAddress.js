@@ -51,15 +51,15 @@ class AddFundsWizardAddress extends React.Component {
     return (
       <div
         className={css(
-          styles.addFundsWizardAddress,
-          this.currency === 'ETH' && styles.addFundsWizardAddress_eth,
-          this.currency === 'BTC' && styles.addFundsWizardAddress_btc,
-          this.currency === 'LTC' && styles.addFundsWizardAddress_ltc,
-          this.currency === 'BAT' && styles.addFundsWizardAddress_bat
+          styles.wizardAddress,
+          this.currency === 'ETH' && styles.wizardAddress_eth,
+          this.currency === 'BTC' && styles.wizardAddress_btc,
+          this.currency === 'LTC' && styles.wizardAddress_ltc,
+          this.currency === 'BAT' && styles.wizardAddress_bat
       )}>
         <header data-l10n-id='addFundsWizardAddressHeader' />
-        <div className={css(styles.addFundsWizardAddress__main)}>
-          <main className={css(styles.addFundsWizardAddress__inputBox)}>
+        <div className={css(styles.wizardAddress__main)}>
+          <main className={css(styles.wizardAddress__inputBox)}>
             <GroupedFormTextbox type='text'
               inputRef={(node) => { this.addressInputNode = node }}
               value={this.props.address}
@@ -67,25 +67,25 @@ class AddFundsWizardAddress extends React.Component {
               groupedItem={this.copyToClipboardButton}
               groupedItemTitle='copyToClipboard'
             />
-            <div className={css(styles.addFundsWizardAddress__fancyDivider)}>
+            <div className={css(styles.wizardAddress__fancyDivider)}>
               <span data-l10n-id='or'
-                className={css(styles.addFundsWizardAddress__fancyDivider__text)}
+                className={css(styles.wizardAddress__fancyDivider__text)}
               />
             </div>
           </main>
-          <aside className={css(styles.addFundsWizardAddress__qrCode)}>
+          <aside className={css(styles.wizardAddress__qrCode)}>
             <span data-l10n-id='qrCodeVersion'
               className={css(
-                styles.addFundsWizardAddress__qrCode__text,
-                styles.addFundsWizardAddress__text_small
+                styles.wizardAddress__qrCode__text,
+                styles.wizardAddress__text_small
               )} />
             <img src={this.props.qrCode}
-              className={css(styles.addFundsWizardAddress__qrCode__image)}
+              className={css(styles.wizardAddress__qrCode__image)}
             />
           </aside>
         </div>
         <footer data-l10n-id='addFundsWizardAddressNote'
-          className={css(styles.addFundsWizardAddress__text_small)}
+          className={css(styles.wizardAddress__text_small)}
         />
       </div>
     )
@@ -93,7 +93,7 @@ class AddFundsWizardAddress extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  addFundsWizardAddress: {
+  wizardAddress: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -113,46 +113,42 @@ const styles = StyleSheet.create({
     }
   },
 
-  addFundsWizardAddress_bat: {
+  wizardAddress_bat: {
     '::before': {
       backgroundImage: `url(${batIcon})`
     }
   },
 
-  addFundsWizardAddress_eth: {
+  wizardAddress_eth: {
     '::before': {
       backgroundImage: `url(${ethIcon})`
     }
   },
 
-  addFundsWizardAddress_btc: {
+  wizardAddress_btc: {
     '::before': {
       backgroundImage: `url(${btcIcon})`
     }
   },
 
-  addFundsWizardAddress_ltc: {
+  wizardAddress_ltc: {
     '::before': {
       backgroundImage: `url(${ltcIcon})`
     }
   },
 
-  addFundsWizardAddress__main: {
+  wizardAddress__main: {
     display: 'flex',
     flex: 1,
     justifyContent: 'space-between',
     margin: '15px 0'
   },
 
-  addFundsWizardAddress__main__text_bold: {
-    fontWeight: 600
-  },
-
-  addFundsWizardAddress__text_small: {
+  wizardAddress__text_small: {
     fontSize: 'small'
   },
 
-  addFundsWizardAddress__inputBox: {
+  wizardAddress__inputBox: {
     display: 'flex',
     flex: 1,
     alignItems: 'center',
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
     height: '120px'
   },
 
-  addFundsWizardAddress__fancyDivider: {
+  wizardAddress__fancyDivider: {
     display: 'flex',
     width: '40px',
     height: '100%',
@@ -174,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'repeat-y'
   },
 
-  addFundsWizardAddress__fancyDivider__text: {
+  wizardAddress__fancyDivider__text: {
     display: 'flex',
     background: 'white',
     margin: 'auto',
@@ -182,19 +178,19 @@ const styles = StyleSheet.create({
     color: '#000'
   },
 
-  addFundsWizardAddress__qrCode: {
+  wizardAddress__qrCode: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: '15px 0'
   },
 
-  addFundsWizardAddress__qrCode__text: {
+  wizardAddress__qrCode__text: {
     color: '#777',
     margin: '5px 0'
   },
 
-  addFundsWizardAddress__qrCode__image: {
+  wizardAddress__qrCode__image: {
     maxWidth: '100px'
   }
 })

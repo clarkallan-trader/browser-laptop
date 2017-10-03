@@ -86,12 +86,12 @@ class AddFundsDialogFooter extends React.Component {
 
   render () {
     return (
-      <section className={css(styles.addFundsFooter)} data-test-id='AddFundsDialogFooter'>
-        <div className={css(styles.addFundsFooter__start)}>
+      <section className={css(styles.footer)} data-test-id='AddFundsDialogFooter'>
+        <div className={css(styles.footer__start)}>
           <img src={upholdLogo}
-            className={css(styles.addFundsFooter__start__uphold_logo)}
+            className={css(styles.footer__start__uphold_logo)}
           />
-          <div className={css(styles.addFundsFooter__start__uphold_text)}>
+          <div className={css(styles.footer__start__uphold_text)}>
             <span data-l10n-id='uphold' />
             <a data-l10n-id='learnMore'
               href='https://uphold.com/signup'
@@ -135,24 +135,24 @@ class AddFundsDialogFooter extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  addFundsFooter: {
+  footer: {
     display: 'flex',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center'
   },
 
-  addFundsFooter__start: {
+  footer__start: {
     display: 'flex',
     alignItems: 'center'
   },
 
-  addFundsFooter__start__uphold_logo: {
+  footer__start__uphold_logo: {
     width: '120px',
     hestart: '35px'
   },
 
-  addFundsFooter__start__uphold_text: {
+  footer__start__uphold_text: {
     display: 'flex',
     flexDirection: 'column',
     fontSize: 'small',
