@@ -1656,15 +1656,15 @@ const onBraveryProperties = (state, error, result) => {
 const getBalance = (state) => {
   if (!client) return
 
-  const paymentId = ledgerState.getInfoProp(state, 'paymentId')
+  const addresses = ledgerState.getInfoProp(state, 'addresses')
   const balanceFn = getBalance.bind(null, state)
   balanceTimeoutId = setTimeout(balanceFn, 1 * miliseconds.minute)
-  if (!paymentId) {
+  if (addresses == null) {
     return
   }
 
   if (!ledgerBalance) ledgerBalance = require('bat-balance')
-  ledgerBalance.getBalance(paymentId, underscore.extend({balancesP: true}, client.options),
+  ledgerBalance.getBalance(addresses.get('CARD_ID'), underscore.extend({balancesP: true}, client.options),
     (err, provider, result) => {
       if (err) {
         return console.warn('ledger balance warning: ' + JSON.stringify(err, null, 2))
