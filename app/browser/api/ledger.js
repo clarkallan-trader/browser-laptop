@@ -1567,6 +1567,8 @@ const getPaymentInfo = (state) => {
         return
       }
 
+      console.log('client.getWalletProperties', body)
+
       appActions.onWalletProperties(body)
     })
   } catch (ex) {
@@ -1578,8 +1580,6 @@ const getPaymentInfo = (state) => {
 
 const onWalletProperties = (state, body) => {
   let newInfo = {
-    balance: body.get('balance'),
-    unconfirmed: body.get('unconfirmed'),
     probi: body.get('probi'),
     addresses: body.get('addresses')
   }
@@ -1588,7 +1588,7 @@ const onWalletProperties = (state, body) => {
 
   const info = ledgerState.getInfoProps(state)
 
-  const amount = info.getIn(['bravery', 'fee', 'amount'])
+  const amount = info.get('balance')
   const currency = info.getIn(['bravery', 'fee', 'currency'])
 
   if (currency) {
@@ -1666,17 +1666,16 @@ const getBalance = (state) => {
   if (!ledgerBalance) ledgerBalance = require('bat-balance')
   ledgerBalance.getBalance(addresses.get('CARD_ID'), underscore.extend({balancesP: true}, client.options),
     (err, provider, result) => {
+      console.log('ledgerBalance.getBalance', result)
       if (err) {
         return console.warn('ledger balance warning: ' + JSON.stringify(err, null, 2))
       }
-      appActions.onLedgerBalanceReceived(result.unconfirmed)
+      appActions.onLedgerBalanceReceived(result.balance, result.unconfirmed)
     })
 }
 
-const balanceReceived = (state, unconfirmed) => {
-  if (typeof unconfirmed === 'undefined') {
-    return state
-  }
+const balanceReceived = (state, balance, unconfirmed) => {
+  state = ledgerState.setInfoProp(state, 'balance', balance)
 
   if (unconfirmed > 0) {
     const result = (unconfirmed / 1e8).toFixed(4)

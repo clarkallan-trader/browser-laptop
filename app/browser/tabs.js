@@ -181,7 +181,7 @@ const updateAboutDetails = (tab, tabValue) => {
 
   // TODO save this into values into the sate so that we don't call this app action on every state change
   // this should be saved in app state when windows will be refactored #11151
-  /*
+
   if (url === 'about:preferences#payments') {
     tab.on('destroyed', () => {
       appActions.ledgerPaymentsPresent(tabValue.get('tabId'), false)
@@ -190,7 +190,7 @@ const updateAboutDetails = (tab, tabValue) => {
   } else {
     appActions.ledgerPaymentsPresent(tabValue.get('tabId'), false)
   }
-  */
+
   if (location === 'about:preferences' || location === 'about:contributions' || location === aboutUrls.get('about:contributions')) {
     const ledgerData = ledgerInfo
       .merge(synopsis)
