@@ -1354,8 +1354,12 @@ const roundtrip = (params, options, callback) => {
     underscore.omit(params, ['headers', 'payload', 'timeout']))
 
 // TBD: let the user configure this via preferences [MTR]
-  if (parts.hostname === 'ledger.brave.com' && params.useProxy) {
-    parts.hostname = 'ledger-proxy.privateinternetaccess.com'
+  if (params.useProxy) {
+    if (parts.hostname === 'ledger.brave.com') {
+      parts.hostname = 'ledger-proxy.privateinternetaccess.com'
+    } else if (parts.hostname === 'ledger.mercury.basicattentiontoken.org') {
+      parts.hostname = 'mercury-proxy.privateinternetaccess.com'
+    }
   }
 
   const i = parts.path.indexOf('?')
