@@ -87,7 +87,7 @@ const formatCurrentBalance = (ledgerData) => {
     converted = Number.parseFloat(ledgerData.get('converted')) || 0
   }
 
-  balance = Math.floor(balance)
+  balance = balance.toFixed(2)
   converted = converted.toFixed(2)
 
   return `${balance} BAT (${converted} ${currency})`

@@ -282,20 +282,24 @@ describe('ledgerReducer unit tests', function () {
   })
 
   describe('APP_ON_LEDGER_BALANCE_RECEIVED', function () {
-    let balanceReceivedSpy
+    let balanceReceivedSpy, result
     before(function () {
+      result = {
+        balance: 10,
+        unconfirmed: 20,
+        probi: 10.0000000000
+      }
       balanceReceivedSpy = sinon.spy(fakeLedgerApi, 'balanceReceived')
       returnedState = ledgerReducer(appState, Immutable.fromJS({
         actionType: appConstants.APP_ON_LEDGER_BALANCE_RECEIVED,
-        balance: 10,
-        unconfirmed: 20
+        result: result
       }))
     })
     after(function () {
       balanceReceivedSpy.restore()
     })
     it('calls ledgerApi.balanceReceived', function () {
-      assert(balanceReceivedSpy.withArgs(appState, 10, 20).calledOnce)
+      assert(balanceReceivedSpy.withArgs(appState, Immutable.fromJS(result)).calledOnce)
     })
     it('returns a modified state', function () {
       assert.notDeepEqual(returnedState, appState)

@@ -1606,11 +1606,10 @@ const appActions = {
     })
   },
 
-  onLedgerBalanceReceived: function (balance, unconfirmed) {
+  onLedgerBalanceReceived: function (result) {
     dispatch({
       actionType: appConstants.APP_ON_LEDGER_BALANCE_RECEIVED,
-      balance,
-      unconfirmed
+      result
     })
   },
 

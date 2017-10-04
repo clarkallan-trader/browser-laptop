@@ -1005,7 +1005,7 @@ const onWalletRecovery = (state, error, result) => {
     // we reset ledgerInfo.error to what it was before (likely null)
     // if ledgerInfo.error is not null, the wallet info will not display in UI
     // logError sets ledgerInfo.error, so we must we clear it or UI will show an error
-    state = logError(error, 'recoveryWallet')
+    state = logError(state, error, 'recoveryWallet')
     state = ledgerState.setInfoProp(state, 'error', existingLedgerError)
     state = ledgerState.setRecoveryStatus(state, false)
   } else {
@@ -1526,6 +1526,8 @@ const generatePaymentData = (state) => {
       case 'LTC':
         url = `litecoin:${address}`
         break
+      default:
+        return
     }
 
     try {
@@ -1539,7 +1541,7 @@ const generatePaymentData = (state) => {
           appActions.onLedgerQRGenerated(index, paymentIMG)
         })
     } catch (ex) {
-      console.error('qr.imageSync error: ' + ex.toString())
+      console.error('qr.imageSync (for url ' + url + ') error: ' + ex.toString())
     }
   })
 
@@ -1563,7 +1565,6 @@ const getPaymentInfo = (state) => {
 
     client.getWalletProperties(amount, currency, function (err, body) {
       if (err) {
-        logError(err, 'getWalletProperties')
         return
       }
 
@@ -1579,30 +1580,7 @@ const getPaymentInfo = (state) => {
 }
 
 const onWalletProperties = (state, body) => {
-  let newInfo = {
-    probi: body.get('probi'),
-    addresses: body.get('addresses')
-  }
-
-  state = ledgerState.mergeInfoProp(state, newInfo)
-
-  const info = ledgerState.getInfoProps(state)
-
-  const amount = info.get('balance')
-  const currency = info.getIn(['bravery', 'fee', 'currency'])
-
-  if (currency) {
-    const rate = body.getIn(['rates', currency])
-    state = ledgerState.setInfoProp(state, 'currentRate', rate)
-
-    if (amount) {
-      if (rate) {
-        const converted = new BigNumber(newInfo.probi.toString()).times(new BigNumber(rate.toString())).toFixed(2)
-        state = ledgerState.setInfoProp(state, 'converted', converted)
-      }
-    }
-  }
-
+  state = ledgerState.setInfoProp(state, 'addresses', body.get('addresses'))
   state = generatePaymentData(state)
 
   return state
@@ -1654,6 +1632,7 @@ const onBraveryProperties = (state, error, result) => {
 }
 
 const getBalance = (state) => {
+  console.log('getBalance')
   if (!client) return
 
   const addresses = ledgerState.getInfoProp(state, 'addresses')
@@ -1670,13 +1649,47 @@ const getBalance = (state) => {
       if (err) {
         return console.warn('ledger balance warning: ' + JSON.stringify(err, null, 2))
       }
-      appActions.onLedgerBalanceReceived(result.balance, result.unconfirmed)
+      appActions.onLedgerBalanceReceived(result)
     })
 }
 
-const balanceReceived = (state, balance, unconfirmed) => {
-  state = ledgerState.setInfoProp(state, 'balance', balance)
+// TODO we are still not getting this data from bat-client
+const balanceReceived = (state, result) => {
+  // Balance
+  const balance = parseFloat(result.get('balance'))
+  if (balance > 0) {
+    state = ledgerState.setInfoProp(state, 'balance', balance)
+  }
 
+  // Rates
+  const rates = result.get('rates')
+  if (rates != null) {
+    state = ledgerState.setInfoProp(state, 'rates', rates)
+  }
+
+  // Probi
+  const probi = parseFloat(result.get('probi'))
+  if (probi > 0) {
+    state = ledgerState.setInfoProp(state, 'probi', probi)
+
+    const info = ledgerState.getInfoProps(state)
+    const amount = info.get('balance')
+    const infoRates = info.get('rates')
+    const currency = info.getIn(['bravery', 'fee', 'currency'])
+
+    if (currency) {
+      const rate = infoRates.get(currency)
+      state = ledgerState.setInfoProp(state, 'currentRate', rate)
+
+      if (amount && rate) {
+        const converted = new BigNumber(probi.toString()).times(new BigNumber(rate.toString())).toFixed(2)
+        state = ledgerState.setInfoProp(state, 'converted', converted)
+      }
+    }
+  }
+
+  // unconfirmed amount
+  const unconfirmed = parseFloat(result.get('unconfirmed'))
   if (unconfirmed > 0) {
     const result = (unconfirmed / 1e8).toFixed(4)
     if (ledgerState.getInfoProp(state, 'unconfirmed') === result) {
@@ -1917,7 +1930,7 @@ const onInitRead = (state, parsedData) => {
 }
 
 const onTimeUntilReconcile = (state, stateResult) => {
-  state = getStateInfo(stateResult)
+  state = getStateInfo(state, stateResult.toJS()) // TODO optimize
   muonWriter(stateResult)
 
   return state

@@ -249,7 +249,7 @@ const ledgerReducer = (state, action, immutableAction) => {
       }
     case appConstants.APP_ON_LEDGER_BALANCE_RECEIVED:
       {
-        state = ledgerApi.balanceReceived(state, action.get('balance'), action.get('unconfirmed'))
+        state = ledgerApi.balanceReceived(state, action.get('result'))
         break
       }
     case appConstants.APP_ON_WALLET_PROPERTIES:

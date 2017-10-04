@@ -183,9 +183,13 @@ class EnabledContent extends ImmutableComponent {
             value={getSetting(settings.PAYMENTS_CONTRIBUTION_AMOUNT, this.props.settings)}
             onChange={changeSetting.bind(null, this.props.onChangeSetting, settings.PAYMENTS_CONTRIBUTION_AMOUNT)}>
             {
-              [25, 50, 75, 100].map((amount) =>
-                <option value={amount}>{amount} BAT ({batToCurrencyString(amount, ledgerData)})</option>
-              )
+              [25, 50, 75, 100].map((amount) => {
+                let alternative = ''
+                if (ledgerData.has('currentRate')) {
+                  alternative = `(${batToCurrencyString(amount, ledgerData)})`
+                }
+                return <option value={amount}>{amount} BAT {alternative}</option>
+              })
             }
           </PanelDropdown>
         </div>
